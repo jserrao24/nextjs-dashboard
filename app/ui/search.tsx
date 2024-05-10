@@ -2,6 +2,7 @@
  
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useDebouncedCallback } from 'use-debounce';
 
 
 interface SearchProps {
@@ -13,10 +14,8 @@ export default function Search({ placeholder }: SearchProps) {
   const pathname = usePathname();
   const { replace } = useRouter();
 
-  function handleSearch(term: string) {
+  const handleSearch = useDebouncedCallback((term) => {
     console.log(`Searching... ${term}`);
-    
-    
     const params = new URLSearchParams(searchParams);
     params.set('page', '1');
     if (term) {
@@ -25,7 +24,7 @@ export default function Search({ placeholder }: SearchProps) {
       params.delete('query');
     }
     replace(`${pathname}?${params.toString()}`);
-  }
+  }, 300); // assuming you want a delay of 300 milliseconds
 
   return (
     <div className="relative flex flex-1 flex-shrink-0">
