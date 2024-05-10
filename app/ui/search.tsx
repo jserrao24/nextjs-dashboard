@@ -3,6 +3,7 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
+
 interface SearchProps {
   placeholder: string;
 }
@@ -15,7 +16,9 @@ export default function Search({ placeholder }: SearchProps) {
   function handleSearch(term: string) {
     console.log(`Searching... ${term}`);
     
+    
     const params = new URLSearchParams(searchParams);
+    params.set('page', '1');
     if (term) {
       params.set('query', term);
     } else {
